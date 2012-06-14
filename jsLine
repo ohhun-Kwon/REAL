@@ -1,0 +1,13 @@
+#pragma strict
+//5.27 z축에 랜덤으로 라인 생성되는 스크립트 생성.
+var line : GameObject;
+
+function Start () {
+	Screen.SetResolution(775,510,true);
+	line.transform.position.x = 0;
+	line.transform.position.y = 0;
+	line.transform.position.z = Random.Range(-2,9); //랜덤으로 (Range:6과 6사이)에서 x좌료로 나타나게함.
+}
+function Update () {
+
+}
