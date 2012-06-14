@@ -1,0 +1,25 @@
+#pragma strict
+//-------------------------------------------------//-------------------------------------------------
+//5.27 메뉴 생성. 게임 화면으로 넘어가는 메뉴 start, 옵션 설정하는 Option생성.
+
+var Start : Texture;
+var Other : Texture;
+function start()
+{
+	Screen.SetResolution(775,510,true);
+}
+function OnGUI ()
+{
+	if( GUI.Button(new Rect(250, 220, 280, 80), Start) )
+	{
+		Application.LoadLevel("500_ing");
+		
+	}
+	//6.2 Option메뉴 자리에 다른 메뉴로 넘어가는 Other 버튼 생성.
+	if( GUI.Button(new Rect(250, 320, 280, 80), Other) )
+	{
+		Application.LoadLevel("GameSelect");
+	}	
+
+	
+}
