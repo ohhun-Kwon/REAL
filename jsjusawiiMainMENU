@@ -1,0 +1,22 @@
+#pragma strict
+//-------------------------------------------------//-------------------------------------------------
+//6.3 주사위게임 메인화면 제작.
+//동전치기처럼 start는 주사위 게임화면으로, Other은 게임 선택화면으로 이동.
+ 
+var Start : Texture;
+var Other : Texture;
+function start()
+{
+	Screen.SetResolution(775,510,true);
+}
+function OnGUI ()
+{
+	if( GUI.Button(new Rect(180, 170, 280, 80), Start) )
+	{
+		Application.LoadLevel("jusawii-ing");
+	}
+	if( GUI.Button(new Rect(180, 270, 280, 80), Other) )
+	{
+		Application.LoadLevel("GameSelect");
+	}	
+}

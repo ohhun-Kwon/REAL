@@ -1,0 +1,18 @@
+#pragma strict
+//6.8 ·ê·¿ ÃÑ¾Ë ³ª°¬À» °æ¿ì ³Ñ¾î°¡´Â È­¸é ¼³Á¤.
+var Other : Texture;
+var bullet : GameObject;
+function start()
+{
+	Screen.SetResolution(775,510,true);
+	
+}
+function OnGUI ()
+{
+	
+	if( GUI.Button(new Rect(400, 50, Other.width, Other.height), Other) )
+	{
+		Application.LoadLevel("GameSelect");
+	}
+
+}

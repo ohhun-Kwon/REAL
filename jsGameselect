@@ -1,0 +1,53 @@
+#pragma strict
+var game1 : Texture;
+var game2 : Texture;
+var game3 : Texture;
+var playerselect : Texture;
+
+function Start () {
+	Screen.SetResolution(775,510,true);
+}
+
+function Update () {
+		if (Input.GetButtonDown("Fire1")) 
+		{                                                    // 화면 터치(및 클릭)가 있으면
+      	 	var hit : RaycastHit;
+     	 	var ray = Camera.main.ScreenPointToRay(Input.mousePosition);       // 터치한 좌표 변환
+                
+        if (Physics.Raycast(ray, hit, Mathf.Infinity)) 
+        {              // 터치한 오브젝트가 있으면
+            var obj = hit.transform.gameObject;                        // 터치한 오브젝트 찾기
+            obj.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver); // -- ①
+        }
+    }
+}
+function OnMouseUp() 
+{
+
+}
+//-------------------------------------------------//-------------------------------------------------
+//6.2 버튼 클릭 시 동전치기 메인화면으로 이동.
+
+function OnGUI ()
+{
+		if( GUI.Button(new Rect(180, 170, 100, 100), game1) )
+		{
+			Application.LoadLevel("500_Start");
+		}
+//6.3 주사위 게임으로 이동하는 버튼 생성.
+		if( GUI.Button(new Rect(350, 170, 100, 100), game2) )
+		{
+			Application.LoadLevel("jusawii-start");
+		}
+//6.8 룰렛 게임으로 이동하는 버튼 생성.
+		if( GUI.Button(new Rect(520, 170, 100, 100), game3) )
+		{
+			Application.LoadLevel("rullet-start");
+		}
+		
+		if( GUI.Button(new Rect(300, 280, 200, 150), playerselect) )
+		{
+			Application.LoadLevel("Player");
+		}
+
+}
