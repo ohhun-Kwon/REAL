@@ -1,0 +1,21 @@
+#pragma strict
+//6.8 룰렛 메인메뉴생성. 다른 게임과 같은 방식.
+var Start : Texture;
+var Other : Texture;
+function start()
+{
+	Screen.SetResolution(775,510,true);
+}
+function OnGUI ()
+{
+	if( GUI.Button(new Rect(250, 220, 150, 120), Start) )
+	{
+		Application.LoadLevel("rullet-ing");
+	}
+	/*
+	if( GUI.Button(new Rect(100, 200, 280, 80), Other) )
+	{
+		Application.LoadLevel("GameSelect");
+	}
+	*/	
+}
