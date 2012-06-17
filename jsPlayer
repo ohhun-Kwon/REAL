@@ -1,0 +1,51 @@
+#pragma strict
+//-------------------------------------------------//-------------------------------------------------
+//5.31 player select 추가, select된 player를 게임에 적용시키기.
+var player2 : Texture;
+var player3 : Texture;
+var player4 : Texture;
+//select된 player 수를 게임에 적용시키기 위해 static 전역 변수로  적용.
+static var player=0;
+function Start () {
+	Screen.SetResolution(775,510,true);
+}
+//화면 터치 함수 ctrl+C, ctrl+V
+function Update () {
+		if (Input.GetButtonDown("Fire1")) 
+		{
+      	 	var hit : RaycastHit;
+     	 	var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                
+        	if (Physics.Raycast(ray, hit, Mathf.Infinity)) 
+        	{
+            	var obj = hit.transform.gameObject; 
+            	obj.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver);
+        	}
+    	}
+}
+function OnMouseUp() 
+{
+	
+}
+
+//player select Button 생성. Button 클릭 시  해당하는 player수의 값이 들어감.
+function OnGUI ()
+{
+		if( GUI.Button(new Rect(170, 210, 130, 130), player2) )
+		{
+			player = 2;
+			Application.LoadLevel("GameSelect");
+		}
+		if( GUI.Button(new Rect(330, 210, 130, 130), player3) )
+		{
+			player = 3;
+			Application.LoadLevel("GameSelect");
+		}
+		if( GUI.Button(new Rect(490, 210, 130, 130), player4) )
+		{
+			player = 4;
+			Application.LoadLevel("GameSelect");
+		}
+
+}
+//-------------------------------------------------//-------------------------------------------------

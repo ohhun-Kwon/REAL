@@ -1,0 +1,129 @@
+#pragma strict
+
+//use; System.Collections;
+static var level = 0;
+var ball : GameObject;      // 공
+var textureLevel : Texture ;
+var textureBar : Texture;
+static var temp =0;
+var level_Control=0;
+var temp_Control=0;
+var Ting : Texture;
+var subC : GameObject;   //ctrl이후 뷰
+var mainC : GameObject;	//게이지조절뷰
+var allC : GameObject;
+var SUBCB : Texture;
+var MAINCB : Texture;
+var ALLCB : Texture;
+static var tingplayer=1;
+static var p1_score=0f;
+static var p2_score=0f;
+static var p3_score=0f;
+static var p4_score=0f;
+
+//SetResolution 775,510은 안드로이드 wide 3:2에 맞게 게임 제작 하고, 775,510 화면 사이즈에 항상 맞게 보이는 함수.
+function Start()
+{
+	Screen.SetResolution(775,510,true);
+	level=0;
+	temp=0;
+	level_Control=0;
+	temp_Control=0;
+	mainCameraOn();
+}
+
+function Update() {
+	Do();
+	
+}
+function Do()
+{
+	if(level_Control==0)
+	{
+		level++;
+		level++;
+	}
+//-------------------------------------------------//-------------------------------------------------
+	//5.30 화면 Touch함수 코딩. Raycast를 이용해 제작.
+	if (Input.GetButtonDown("Fire1")) 
+	{                                                    // 화면 터치(및 클릭)가 있으면
+        var hit : RaycastHit;
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);       // 터치한 좌표 변환
+                
+        if (Physics.Raycast(ray, hit, Mathf.Infinity)) 
+        {              // 터치한 오브젝트가 있으면
+            var obj = hit.transform.gameObject;                        // 터치한 오브젝트 찾기
+            obj.SendMessage("OnMouseUp", SendMessageOptions.DontRequireReceiver); // -- ①
+        }
+    }
+
+   	if(level_Control==1) 
+   		Temp_minus();
+}
+//-------------------------------------------------//-------------------------------------------------
+//5.30  jsCameramanager를 삭제하고, jsBall에 merge. 알아보기 쉽게 하기 위함.
+//기존 Cameramanager
+function mainCameraOn(){
+	mainC.camera.enabled = true;
+	subC.camera.enabled = false;
+	allC.camera.enabled = false;
+}
+function subCameraOn(){
+	mainC.camera.enabled = false;
+	subC.camera.enabled = true;
+	allC.camera.enabled = false;
+}
+function allCameraOn(){
+	mainC.camera.enabled = false;
+	subC.camera.enabled = false;
+	allC.camera.enabled = true;
+}
+//-------------------------------------------------//-------------------------------------------------
+//5. 27   temp값을 설정. temp값은 동전이 발사되고 난 후 메인메뉴 화면이 뜨기 전까지의 시간을 정함. 적절한 값을 찾아 테스트.
+function Temp_minus()
+{
+	if(temp>0) temp_Control=0;
+	if(temp<0) temp_Control=1;
+	if(temp_Control==0) temp--;
+	if(temp_Control==1) ;
+}
+function OnMouseUp() 
+{
+
+}
+
+
+function OnGUI ()
+{
+//-------------------------------------------------//-------------------------------------------------
+//5.30  view별 동전의 위치를 알 수 있게 하는 Cameraviewer Button 생성.
+		if( GUI.Button(new Rect(20, 220, 100, 100), MAINCB) )
+			mainCameraOn();
+	
+		if( GUI.Button(new Rect(20, 350, 100, 100), ALLCB) )
+			allCameraOn();
+//-------------------------------------------------//-------------------------------------------------
+//5.30 mainCamera가 비춰져있을 때 Ting 버튼 활성화. Ting Button 터치 시 subCamera On. subCamera는 동전과 함께 따라감.
+		if(mainC.camera.enabled == true)
+		{
+			if( GUI.Button(new Rect(250, 350, 250, 100), Ting) )
+			{
+				subC.audio.Play();
+				subCameraOn();
+				level_Control=1;
+				ball.rigidbody.AddForce(Vector3.forward * level * 15);
+	    		temp=level*2;
+	    		jsBall.tingplayer++;
+			}
+		}
+//-------------------------------------------------//-------------------------------------------------
+//5.27 파워값을 보여주는 바 생성.
+		if(level > 100) level=0;
+		
+      	GUI.DrawTexture(new Rect(140,55,130*(level/100.0),textureBar.height), textureBar);//노란거 올라가는거.
+		GUI.DrawTexture(new Rect(90,35,textureLevel.width,textureLevel.height), textureLevel);//노란거 배경.
+		GUI.Label(Rect(90,55,100,20), level.ToString());//파워 얼마인지 표시.
+			
+		
+		
+}

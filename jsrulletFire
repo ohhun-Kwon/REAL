@@ -1,0 +1,117 @@
+#pragma strict
+//6.8 러시안룰렛 메인 스크립트.
+var power = 1000;
+static var bullet : GameObject;
+var fire : Texture;
+var rand = 1f;
+var roll : GameObject;
+var roll_ctrl = 0;
+var p1 : GameObject;
+var p2 : GameObject;
+var p3 : GameObject;
+var p4 : GameObject;
+var curplayer=1;
+var p1t : Texture;
+var p2t : Texture;
+var p3t : Texture;
+var p4t : Texture;
+
+function Start()
+{
+	p1On();
+	Screen.SetResolution(775,510,true);
+}	
+
+function Update()//탄창이 돌아가는 모션을 표현해준다.
+{
+	if(roll_ctrl>0)
+	{
+		roll.transform.Rotate(Vector3.forward*3);
+		roll_ctrl--;
+	}
+
+}
+
+
+function OnGUI ()
+{//버튼을 누르면 rand변수에 0~1 사이의 랜덤 float값이 들어간다.  0.2보다 낮은 값이 나오면 총알 발사.
+	if( GUI.Button(new Rect(270, 320, fire.width, fire.height), fire))
+	{
+		roll_ctrl=20;
+		rand = Random.value;
+		if(rand <= 0.2)
+		{
+			Application.LoadLevel("die");
+		}
+		
+		if(rand	>0.2)
+		{
+			curplayer++;
+			viewplayer();
+		}
+		
+	}	
+//-------------------------------------------------------------------------------------------------
+	//6.9 1p~4p의 순서를 알려주기위해 카메라 4개 설치.
+	//카메라별 Texture로 순서를 알려준다.
+	if(p1.camera.enabled == true)
+		GUI.DrawTexture(new Rect(30,30,p1t.width,p1t.height), p1t);
+	if(p2.camera.enabled == true)
+		GUI.DrawTexture(new Rect(30,30,p2t.width,p2t.height), p2t);
+	if(p3.camera.enabled == true)
+		GUI.DrawTexture(new Rect(30,30,p3t.width,p3t.height), p3t);
+	if(p4.camera.enabled == true)
+		GUI.DrawTexture(new Rect(30,30,p4t.width,p4t.height), p4t);
+	
+}
+
+//6.9 currunt player 값에 따른 카메라 뷰 설정 
+function viewplayer()
+{
+	if(jsPlayer.player+1!=curplayer)
+	{
+		if(curplayer==1)
+			p1On();
+		else if(curplayer==2)
+			p2On();
+		else if(curplayer==3)
+			p3On();
+		else if(curplayer==4)
+			p4On();	
+	}		
+	else
+	{
+		curplayer=1;
+		p1On();
+	}
+
+}
+function p1On(){
+	roll.audio.Play();
+	p1.camera.enabled = true;
+	p2.camera.enabled = false;
+	p3.camera.enabled = false;
+	p4.camera.enabled = false;
+}
+function p2On(){
+	roll.audio.Play();
+	p2.camera.enabled = true;
+	p1.camera.enabled = false;
+	p3.camera.enabled = false;
+	p4.camera.enabled = false;
+}
+function p3On(){
+	roll.audio.Play();
+	p3.camera.enabled = true;
+	p2.camera.enabled = false;
+	p1.camera.enabled = false;
+	p4.camera.enabled = false;
+}
+function p4On(){
+	roll.audio.Play();
+	p4.camera.enabled = true;
+	p2.camera.enabled = false;
+	p3.camera.enabled = false;
+	p1.camera.enabled = false;
+}
+//-------------------------------------------------------------------------------------------------
