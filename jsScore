@@ -1,0 +1,85 @@
+#pragma strict
+//-------------------------------------------------//-------------------------------------------------
+static var hit = 0f;
+var ball:GameObject;
+var line:GameObject;
+var NAK : Texture;
+var Menu : Texture;
+var Next : Texture;
+private var ttime : float = 0.0;
+//-------------------------------------------------//-------------------------------------------------
+function start()
+{
+	Screen.SetResolution(775,510,true);
+}
+//-------------------------------------------------//-------------------------------------------------
+function OnGUI() {// 화면 출력
+	if(jsBall.temp<0 || ball.transform.position.y<=0)//5.27   동전의 y축 위치가 0보다 작을때 즉 책상에서 떨어졌을 때의 값.
+	{
+//6.2 player수와 현재 플레이어 수를 비교해서 Next버튼이 나올 것인지 Menu버튼이 나올 것인지 생성. 
+//    player 수를 넣고 나서, 각 player마다 line과의 거리를 저장하는 px-scroe jsBall에 생성. 
+		if(jsBall.tingplayer<=jsPlayer.player)
+		{
+			if(GUI.Button(new Rect(320,250,150,150), Next))
+			{
+				Application.LoadLevel("500_ing");
+
+   			}
+		}	
+		else
+		{//Menu 선택 시 각 player의 점수 초기화.
+			if(GUI.Button(new Rect(190,220,Menu.width,Menu.height), Menu))
+			{
+   				Application.LoadLevel("500_Start");
+   				jsBall.tingplayer=1;
+   				jsBall.p1_score=0;
+   				jsBall.p2_score=0;
+   				jsBall.p3_score=0;
+   				jsBall.p4_score=0;
+   			}
+   		}
+   		//-------------------------------------------------
+   		//각 player 마다 동전을 던졌을 경우 hit값을 px-scroe에 저장.
+   		if(jsBall.tingplayer-1==1)
+			jsBall.p1_score=hit;
+		if(jsBall.tingplayer-1==2)
+			jsBall.p2_score=hit;
+		if(jsBall.tingplayer-1==3)
+			jsBall.p3_score=hit;
+		if(jsBall.tingplayer-1==4)
+			jsBall.p4_score=hit;
+	}
+//-------------------------------------------------//-------------------------------------------------
+	hit = line.transform.position.z-ball.transform.position.z;//hit은 line과 동전의 z축 값을 뺀 절대값.
+	
+//-------------------------------------------------//-------------------------------------------------
+//6.2 한명만을 출력 해주던 점수값을 각 player마다 나오게 해준다.
+	if(jsBall.tingplayer==2){
+		GUI.Label(Rect(30, 100, 120, 20), "1P : " + (jsBall.p1_score*10) + "cm");
+	}
+	if(jsBall.tingplayer==3){
+		GUI.Label(Rect(30, 100, 120, 20), "1P : " + (jsBall.p1_score*10) + "cm");
+		GUI.Label(Rect(30, 120, 120, 20), "2P : " + (jsBall.p2_score*10) + "cm");
+	}
+	if(jsBall.tingplayer==4){
+		GUI.Label(Rect(30, 100, 120, 20), "1P : " + (jsBall.p1_score*10) + "cm");
+		GUI.Label(Rect(30, 120, 120, 20), "2P : " + (jsBall.p2_score*10) + "cm");
+		GUI.Label(Rect(30, 140, 120, 20), "3P : " + (jsBall.p3_score*10) + "cm");
+	}
+	if(jsBall.tingplayer==5){
+		GUI.Label(Rect(30, 100, 120, 20), "1P : " + (jsBall.p1_score*10) + "cm");
+		GUI.Label(Rect(30, 120, 120, 20), "2P : " + (jsBall.p2_score*10) + "cm");
+		GUI.Label(Rect(30, 140, 120, 20), "3P : " + (jsBall.p3_score*10) + "cm");
+		GUI.Label(Rect(30, 160, 120, 20), "4P : " + (jsBall.p4_score*10) + "cm");
+	}
+		
+//-------------------------------------------------//-------------------------------------------------	
+	//5.27 동전과의 거리, touch버튼을 눌렀을 때 power값을 보여준다. 
+	if(hit<0)
+	{
+		hit=hit*(-1);
+	}
+    GUI.Label(Rect(350, 20, 120, 20), "거리 : " + (hit*10) + "cm");
+    GUI.Label(Rect(350, 40, 120, 20), "Power : " + jsBall.level);    
+}
+//-------------------------------------------------//-------------------------------------------------

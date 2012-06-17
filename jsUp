@@ -1,0 +1,108 @@
+#pragma strict
+//6.5 주사위 위에 있는 숫자 알 수 있는 스크립트
+var ju1_1 : GameObject;
+var ju1_2 : GameObject;
+var ju1_3 : GameObject;
+var ju1_4 : GameObject;
+var ju1_5 : GameObject;
+var ju1_6 : GameObject;
+
+var ju2_1 : GameObject;
+var ju2_2 : GameObject;
+var ju2_3 : GameObject;
+var ju2_4 : GameObject;
+var ju2_5 : GameObject;
+var ju2_6 : GameObject;
+
+var ju1_1_pos=0;
+var ju1_2_pos=0;
+var ju1_3_pos=0;
+var ju1_4_pos=0;
+var ju1_5_pos=0;
+var ju1_6_pos=0;
+
+var ju2_1_pos=0;
+var ju2_2_pos=0;
+var ju2_3_pos=0;
+var ju2_4_pos=0;
+var ju2_5_pos=0;
+var ju2_6_pos=0;
+
+static var score1=0;
+static var score2=0;
+static var score3=0;
+static var score4=0;
+var Ju1up=0;
+var Ju2up=0;	
+
+
+
+function Start () {
+	Screen.SetResolution(775,510,true);
+}
+//주사위를 정육면체로 제작하지 않고, 각 면마다 함께 설정해서 그룹화.
+//각 면마다의 y값을 비교해서 제일 밑에 있는 값을 알아보고, 7-value 하여 반대쪽 값을 알게 한다.
+function Update () {
+	ju1_1_pos = ju1_1.transform.position.y;
+	ju1_2_pos = ju1_2.transform.position.y;
+	ju1_3_pos = ju1_3.transform.position.y;
+	ju1_4_pos = ju1_4.transform.position.y;
+	ju1_5_pos = ju1_5.transform.position.y;
+	ju1_6_pos = ju1_6.transform.position.y;
+	
+	ju2_1_pos = ju2_1.transform.position.y;
+	ju2_2_pos = ju2_2.transform.position.y;
+	ju2_3_pos = ju2_3.transform.position.y;
+	ju2_4_pos = ju2_4.transform.position.y;
+	ju2_5_pos = ju2_5.transform.position.y;
+	ju2_6_pos = ju2_6.transform.position.y;
+	
+	FindUp();
+	
+	
+	
+}
+
+
+
+function FindUp()
+{
+	if(ju1_1_pos==-2)	Ju1up=6;
+	if(ju1_2_pos==-2)	Ju1up=5;
+	if(ju1_3_pos==-2)	Ju1up=4;
+	if(ju1_4_pos==-2)	Ju1up=3;
+	if(ju1_5_pos==-2)	Ju1up=2;
+	if(ju1_6_pos==-2)	Ju1up=1;
+	
+	if(ju2_1_pos==-2)	Ju2up=6;
+	if(ju2_2_pos==-2)	Ju2up=5;
+	if(ju2_3_pos==-2)	Ju2up=4;
+	if(ju2_4_pos==-2)	Ju2up=3;
+	if(ju2_5_pos==-2)	Ju2up=2;
+	if(ju2_6_pos==-2)	Ju2up=1;
+	
+	if(jsJusawii.juplayer==1){
+		score1=Ju1up+Ju2up;
+	}
+	else if(jsJusawii.juplayer==2){
+		score2=Ju1up+Ju2up;
+	}
+	else if(jsJusawii.juplayer==3){
+		score3=Ju1up+Ju2up;
+	}
+	else if(jsJusawii.juplayer==4){
+		score4=Ju1up+Ju2up;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+	
