@@ -1,0 +1,140 @@
+//-------------------------------------------------//-------------------------------------------------
+//6.3 주사위게임 메인 스크립트.
+#pragma strict
+var Jusawii1 : GameObject;
+var Jusawii2 : GameObject;
+var Throw : Texture;
+var mainC : GameObject;
+var plztouchC : GameObject;
+var power=0;
+var Next : Texture;
+var Menu : Texture;
+var sound : GameObject;
+
+
+
+static var juplayer=1;
+
+static var level = 0;
+var textureLevel : Texture ;
+var textureBar : Texture;
+var level_Control=0;
+var Next_Ctrl=0;
+
+
+function Start () {
+	Screen.SetResolution(775,510,true);
+	plztouchCameraOn();
+	level=0;
+	level_Control=0;
+		
+}
+//level값 상승.
+function Update () {
+
+	
+	if(level_Control==0)
+	{
+		level++;
+		level++;
+	}
+	if(Next_Ctrl >0)
+		Next_Ctrl--;
+}
+function mainCameraOn(){
+	
+	mainC.camera.enabled = true;
+	plztouchC.camera.enabled = false;
+
+}
+function plztouchCameraOn(){
+	mainC.camera.enabled = false;
+	plztouchC.camera.enabled = true;
+}
+function OnGUI ()
+{	
+	if(plztouchC.camera.enabled ==true)
+	{
+		if( GUI.Button(new Rect(300, 240, 200, 80), Throw) )
+		{	
+			
+			level_Control=1;
+			Next_Ctrl = level* 10;
+			mainCameraOn();
+
+			
+			//AddTorque로 회전 방향 랜덤.
+			power= level * 13;
+			Jusawii1.rigidbody.AddForce(Vector3.up * power);
+			Jusawii1.rigidbody.AddTorque(Random.onUnitSphere * power);
+			Jusawii1.rigidbody.AddForce(Vector3.forward*level);
+			Jusawii1.rigidbody.AddForce(Vector3.left*level);
+		
+			Jusawii2.rigidbody.AddForce(Vector3.up *power);
+			Jusawii2.rigidbody.AddTorque(Random.onUnitSphere *power);
+			Jusawii2.rigidbody.AddForce(Vector3.forward*level);
+			Jusawii2.rigidbody.AddForce(Vector3.right*level);
+			
+			Next_Ctrl=level*3;
+			
+		}
+	}
+	if(mainC.camera.enabled==true && Next_Ctrl==0)
+	{
+		GUI.Label(Rect(630, 10, 120, 20), "Result");
+		//player 수 설정 한것 연동. 현재 플레이어와 초기 설정한 플레이어 비교.
+		if(juplayer >= jsPlayer.player)
+		{
+			if(GUI.Button(new Rect(230,220,Menu.width,Menu.height), Menu))
+			{
+				Application.LoadLevel("jusawii-start");
+				juplayer=1;
+   				jsUp.score1=0;
+   				jsUp.score2=0;
+   				jsUp.score3=0;
+   				jsUp.score4=0;
+   			}
+   		}
+		else
+		{
+			if(GUI.Button(new Rect(300,250,150,150), Next))
+			{
+				juplayer++;
+				Application.LoadLevel("jusawii-ing");
+				
+				
+   			}
+		}
+//--------------------------------------------------------------------------------------------------
+//6.5 주사위 위에 뭐가 있는지 알 수 있는 코드.
+//--------------------------------------------------------------------------------------------------
+		if(juplayer==1){
+			GUI.Label(Rect(630, 30, 120, 20), "1P : " + jsUp.score1);
+		}
+		if(juplayer==2){
+			GUI.Label(Rect(630, 30, 120, 20), "1P : " + jsUp.score1);
+			GUI.Label(Rect(630, 50, 120, 20), "2P : " + jsUp.score2);
+		}
+		if(juplayer==3){
+			GUI.Label(Rect(630, 30, 120, 20), "1P : " + jsUp.score1);
+			GUI.Label(Rect(630, 50, 120, 20), "2P : " + jsUp.score2);
+			GUI.Label(Rect(630, 70, 120, 20), "3P : " + jsUp.score3);
+		}
+		if(juplayer==4){
+			GUI.Label(Rect(630, 30, 120, 20), "1P : " + jsUp.score1);
+			GUI.Label(Rect(630, 50, 120, 20), "2P : " + jsUp.score2);
+			GUI.Label(Rect(630, 70, 120, 20), "3P : " + jsUp.score3);
+			GUI.Label(Rect(630, 90, 120, 20), "4P : " + jsUp.score4);
+		}
+	}
+//-------------------------------------------------//-------------------------------------------------	
+//파워게이지 view
+		if(level > 100) level=0;
+	    GUI.DrawTexture(new Rect(140,55,130*(level/100.0),textureBar.height), textureBar);//노란거 올라가는거.
+		GUI.DrawTexture(new Rect(90,35,textureLevel.width,textureLevel.height), textureLevel);//노란거 배경.
+		GUI.Label(Rect(90,55,100,20), level.ToString());//파워 얼마인지 표시.
+//-------------------------------------------------//-------------------------------------------------
+}
+
+
+
